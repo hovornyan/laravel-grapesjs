@@ -1,6 +1,6 @@
 # Installation
 
->`composer require jd-dotlogics/laravel-grapesjs`
+>`composer require hovornyan/laravel-grapesjs`
 
 
 # Publish files
