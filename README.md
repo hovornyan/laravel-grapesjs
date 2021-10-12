@@ -6,6 +6,7 @@
 # Publish files
 
 >`php artisan vendor:publish --provider="Dotlogics\Grapesjs\GrapesjsServiceProvider"`
+
 >`php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"`
 
 # Get Start
