@@ -11,6 +11,16 @@
 
 >`php artisan migrate`
 
+>`npm i grapesjs`
+
+>`npm i grapesjs-blocks-basic`
+
+>`npm i grapesjs-blocks-bootstrap4`
+
+>`npm i grapesjs-tui-image-editor`
+
+>`npm i toastr`
+
 # Get Start
 
 1. Add 'gjs_data' column to the model's database table (e.g Page), for which you are going to use the editor.
