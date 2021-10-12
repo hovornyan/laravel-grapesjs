@@ -71,5 +71,9 @@ class GrapesjsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/grapesjs'),
         ], 'views');
+        
+         $this->publishes([
+            __DIR__.'/resources/js' => resource_path('js'),
+        ], 'views');
     }
 }
