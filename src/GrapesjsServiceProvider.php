@@ -31,7 +31,7 @@ class GrapesjsServiceProvider extends ServiceProvider
         $this->setupRoutes($this->app->router);
 
         if ($this->app->runningInConsole()) {
-            $this->publishFiles();            
+            $this->publishFiles();
         }
     }
 
@@ -71,8 +71,8 @@ class GrapesjsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/grapesjs'),
         ], 'views');
-        
-         $this->publishes([
+
+        $this->publishes([
             __DIR__.'/resources/js' => resource_path('js/vendor/grapesjs'),
         ], 'views');
     }
