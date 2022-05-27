@@ -2,6 +2,8 @@
 
 namespace Dotlogics\Grapesjs\App\Http\Controllers;
 
+use App\LandingPagesBlocks;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,7 +18,7 @@ class EditorController extends Controller
 
     public function __construct(Request $request){
         $model = $request->route()->parameters['model'] ?? null;
-        
+
         if(!empty($model)){
             $request->route()->setParameter('model',  str_replace('-', '\\', $model));
         }
@@ -26,7 +28,7 @@ class EditorController extends Controller
     {
         return $this->show_gjs_editor($request, $model::findOrFail($id));
     }
-    
+
     public function store(Request $request, $model, $id)
     {
         return $this->store_gjs_data($request, $model::findOrFail($id));
@@ -44,8 +46,21 @@ class EditorController extends Controller
         if(!File::exists($otherBlocks)) {
             $otherBlocks = __DIR__ . '/../../../resources/views/gjs-blocks';
         }
-        
-        $templates = []; 
+
+        $templates = [];
+
+        try {
+            $db_templates =  LandingPagesBlocks::all();
+            foreach ($db_templates as $template){
+                $template->{'content'} = view("vendor.grapesjs.db-blocks.placeholder", compact('template'))->render();
+            }
+            $db_templates = $db_templates->toArray();
+        }
+        catch (\Exception $e){
+            $db_templates = [];
+        }
+        $templates = $db_templates;
+
 
         foreach (File::allFiles($templatesPath) as $fileInfo) {
             $file_name = str_replace(".blade.php", "", $fileInfo->getBasename());
@@ -56,7 +71,7 @@ class EditorController extends Controller
                 'content' => view("grapesjs::templates.{$file_name}")->render()
             ];
         }
-        
+
         foreach (File::allFiles($otherBlocks) as $fileInfo) {
             $file_name = str_replace(".blade.php", "", $fileInfo->getBasename());
             $templates [] = [

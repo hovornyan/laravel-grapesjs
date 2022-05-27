@@ -1,5 +1,5 @@
 {
-    "name": "hovornyan/laravel-grapesjs",
+    "name": "jd-dotlogics/laravel-grapesjs",
     "description": "A package for use Grapes.js in Laravel",
     "type": "library",
     "require": {

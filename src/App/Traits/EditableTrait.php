@@ -2,6 +2,7 @@
 
 namespace Dotlogics\Grapesjs\App\Traits;
 
+use App\LandingPagesBlocks;
 use DOMDocument;
 
 trait EditableTrait{
@@ -50,11 +51,11 @@ trait EditableTrait{
             libxml_use_internal_errors(TRUE);
             $dom->loadHTML("<$placeholder />");
             libxml_use_internal_errors(FALSE);
-            
+
             $body = $dom->documentElement->firstChild;
             $placeholder = $body->childNodes[0];
             $length = $placeholder->attributes->length;
-            
+
             for ($i = 0; $i < $length; ++$i) {
                 $name = $placeholder->attributes->item($i)->name;
                 $value = $placeholder->getAttribute($name);
@@ -72,7 +73,7 @@ trait EditableTrait{
     }
 
     protected function findAndSetPlaceholders($html){
-        $re = '/\[\[[A-Z][a-z]*(-[A-Z][a-z]*)*([\s]+[a-z]+(=.+)?)*\]\]/';
+        $re = '/\[\[[A-Z][a-z]*(-[A-Z][a-z]*)*[0-9]*([\s]+[a-z]+(=.+)?)*\]\]/';
 
         preg_match_all($re, $html, $placeholders);
 
@@ -80,19 +81,27 @@ trait EditableTrait{
 
         foreach ($placeholders as $_placeholder) {
             if(empty($this->placeholders[$_placeholder])){
-                $placeholder = str_replace(['[[', ']]'], '', $_placeholder);                
+                $placeholder = str_replace(['[[', ']]'], '', $_placeholder);
                 $attributes = $this->getPlaceholderAttributes($placeholder);
-
                 $view = preg_split('/[\s]+/', $placeholder);
                 $view = array_shift($view);
                 $view = strtolower($view);
 
+
                 if(view()->exists("grapesjs::placeholders.{$view}")){
-                    $this->setPlaceholder($_placeholder, view("grapesjs::placeholders.{$view}", $attributes)->render());
+                    $this->setPlaceholder($_placeholder, view("grapesjs::placeholders.{$view}", compact('attributes'))->render());
+                }
+                else{
+                    $view = str_replace( 'db-block-id','', $view);
+                    $template =  LandingPagesBlocks::where('id', $view)->first();
+                    if($template){
+                        $this->setPlaceholder($_placeholder, view("vendor.grapesjs.db-blocks.show", compact('template', 'attributes'))->render());
+                    }
                 }
             }
         }
 
+//        dd($this);
         $placeholders = $this->getPlaceholders();
         $html = str_replace(array_keys($placeholders), array_values($placeholders), $html);
 
