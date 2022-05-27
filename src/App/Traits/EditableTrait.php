@@ -83,6 +83,7 @@ trait EditableTrait{
             if(empty($this->placeholders[$_placeholder])){
                 $placeholder = str_replace(['[[', ']]'], '', $_placeholder);
                 $attributes = $this->getPlaceholderAttributes($placeholder);
+
                 $view = preg_split('/[\s]+/', $placeholder);
                 $view = array_shift($view);
                 $view = strtolower($view);

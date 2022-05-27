@@ -1,11 +1,25 @@
 # Installation
 
->`composer require jd-dotlogics/laravel-grapesjs`
+>`composer require hovornyan/laravel-grapesjs`
 
 
 # Publish files
 
 >`php artisan vendor:publish --provider="Dotlogics\Grapesjs\GrapesjsServiceProvider"`
+
+>`php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"`
+
+>`php artisan migrate`
+
+>`npm i grapesjs`
+
+>`npm i grapesjs-blocks-basic`
+
+>`npm i grapesjs-blocks-bootstrap4`
+
+>`npm i grapesjs-tui-image-editor`
+
+>`npm i toastr`
 
 # Get Start
 
